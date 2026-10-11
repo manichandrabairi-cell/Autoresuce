@@ -19,10 +19,11 @@ app = FastAPI(
     openapi_url="/api/openapi.json"
 )
 
-# CORS Middleware
+# CORS Middleware - Universally allows all origins and cloud domains (Vercel, Render, Railway, localhost)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.BACKEND_CORS_ORIGINS,
+    allow_origin_regex=r"^https?:\/\/.*$",
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -44,6 +45,15 @@ app.include_router(ai.router, prefix=settings.API_V1_STR)
 app.include_router(payments.router, prefix=settings.API_V1_STR)
 app.include_router(admin.router, prefix=settings.API_V1_STR)
 app.include_router(public.router, prefix=settings.API_V1_STR)
+
+@app.get("/health")
+@app.get("/api/health")
+def health_check():
+    return {
+        "status": "ok",
+        "platform": settings.PROJECT_NAME,
+        "docs": "/api/docs"
+    }
 
 # Serve Frontend SPA in Production if frontend/dist exists
 candidate_dist_paths = [
