@@ -4,12 +4,23 @@
   "description": "AutoRescue — AI-Powered Roadside Assistance & Towing Marketplace Platform",
   "private": true,
   "scripts": {
-    "build:frontend": "npm run build --prefix frontend",
-    "start:frontend": "npm run preview --prefix frontend",
-    "dev:frontend": "npm run dev --prefix frontend",
-    "dev:backend": "python -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port 8000 --reload",
-    "start:backend": "python -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port 8000 --workers 4",
+    "build": "npm --prefix frontend install && npm --prefix frontend run build && pip install -r backend/requirements.txt",
+    "build:frontend": "npm --prefix frontend install && npm --prefix frontend run build",
+    "build:backend": "pip install -r backend/requirements.txt",
+    "start": "python -m uvicorn app.main:app --app-dir backend --host 0.0.0.0 --port ${PORT:-8000}",
+    "start:local": "python -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000 --reload",
+    "dev:frontend": "npm --prefix frontend run dev",
     "seed": "python backend/seed.py",
-    "test:backend": "python backend/test_workflows.py"
-  }
+    "test": "python backend/test_workflows.py"
+  },
+  "keywords": [
+    "roadside-assistance",
+    "towing-platform",
+    "fastapi",
+    "react",
+    "ai",
+    "mobilenetv2"
+  ],
+  "author": "Mani Chandra Bairi <manichandra.bairi@gmail.com>",
+  "license": "MIT"
 }
