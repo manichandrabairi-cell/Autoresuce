@@ -1,0 +1,12 @@
+{
+  "typescript.tsdk": "frontend/node_modules/typescript/lib",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/backend"
+  ],
+  "editor.formatOnSave": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/__pycache__": true
+  }
+}

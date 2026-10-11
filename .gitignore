@@ -1,0 +1,52 @@
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+
+# Local SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+autorescue.db
+backend/autorescue.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+backend/__pycache__/
+backend/*/__pycache__/
+backend/*/*/__pycache__/
+
+# Python virtual environment
+venv/
+.venv/
+env/
+python/
+python-installer.exe
+python-standalone.tar.gz
+
+# Node / Frontend
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+dist-ssr/
+frontend/dist-ssr/
+*.local
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local build artifacts & zips
+*.zip
+AutoRescue_VSCode.zip
+AutoRescue_Project.zip
+
+# OS Files
+.DS_Store
+Thumbs.db
