@@ -46,15 +46,32 @@ app.include_router(admin.router, prefix=settings.API_V1_STR)
 app.include_router(public.router, prefix=settings.API_V1_STR)
 
 # Serve Frontend SPA in Production if frontend/dist exists
-FRONTEND_DIST = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "frontend", "dist")
-if os.path.exists(FRONTEND_DIST) and os.path.exists(os.path.join(FRONTEND_DIST, "index.html")):
+candidate_dist_paths = [
+    os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "frontend", "dist"),
+    os.path.join(os.path.dirname(os.path.dirname(__file__)), "static"),
+    os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend", "dist"),
+    os.path.join(os.getcwd(), "frontend", "dist"),
+    os.path.join(os.getcwd(), "dist")
+]
+
+FRONTEND_DIST = None
+for p in candidate_dist_paths:
+    if os.path.exists(p) and os.path.exists(os.path.join(p, "index.html")):
+        FRONTEND_DIST = p
+        break
+
+if FRONTEND_DIST:
     assets_path = os.path.join(FRONTEND_DIST, "assets")
     if os.path.exists(assets_path):
         app.mount("/assets", StaticFiles(directory=assets_path), name="assets")
 
+    @app.get("/")
+    async def serve_root():
+        return FileResponse(os.path.join(FRONTEND_DIST, "index.html"))
+
     @app.get("/{full_path:path}")
     async def serve_spa(full_path: str):
-        if full_path.startswith("api") or full_path.startswith("ws") or full_path.startswith("uploads"):
+        if full_path.startswith("api") or full_path.startswith("ws") or full_path.startswith("uploads") or full_path.startswith("docs") or full_path.startswith("openapi"):
             raise HTTPException(status_code=404, detail="Not Found")
         file_path = os.path.join(FRONTEND_DIST, full_path)
         if os.path.isfile(file_path):
