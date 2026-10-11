@@ -1,0 +1,18 @@
+{
+  "name": "autorescue-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AutoRescue — AI-Powered Roadside Assistance & Towing Marketplace Platform",
+  "scripts": {
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build:frontend": "npm --prefix frontend run build",
+    "preview:frontend": "npm --prefix frontend run preview",
+    "dev:backend": "python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload --app-dir backend",
+    "start:backend": "python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --app-dir backend",
+    "install:backend": "pip install -r backend/requirements.txt",
+    "install:frontend": "npm --prefix frontend install",
+    "install:all": "pip install -r backend/requirements.txt && npm --prefix frontend install",
+    "seed": "python backend/seed.py",
+    "test": "python backend/test_workflows.py"
+  }
+}
